@@ -22,7 +22,7 @@ public class MainActivity extends Form implements HandlesEventDispatching {
     Button btn_doesSomething;
     Label msg_AllOK;
 
-    static final int color_MAIN_BACKGROUND=0xFF000000; // black
+    static final int color_MAIN_BACKGROUND=0xFF2f6327; // dk green
     static final int color_MAIN_TEXT=0xFFFFFFFF; // white
 
     arduino_eeprom_data d1_Data=new arduino_eeprom_data();
