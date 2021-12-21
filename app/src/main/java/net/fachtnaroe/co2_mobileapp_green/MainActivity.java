@@ -41,6 +41,7 @@ public class MainActivity extends Form implements HandlesEventDispatching {
     Label Label1, Label2, LabelCo2,LabelT, Labelppm, LabelC;
 
     protected void $define() {
+        // This is just to show that we can
         this.Sizing("Responsive");
         dbg("A");
         Home = new VerticalArrangement(this);
