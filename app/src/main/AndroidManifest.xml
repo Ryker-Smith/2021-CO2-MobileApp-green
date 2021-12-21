@@ -18,6 +18,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Main_Menu"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".Co2"
+            android:exported="true">
+
+        </activity>
+
+        <activity
+            android:name=".Configuration"
+            android:exported="true">
+
+        </activity>
+
+        <activity
+            android:name=".Temperature"
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>
