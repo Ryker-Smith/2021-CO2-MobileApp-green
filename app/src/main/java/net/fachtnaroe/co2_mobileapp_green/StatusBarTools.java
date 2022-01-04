@@ -24,7 +24,7 @@ import com.google.appinventor.components.runtime.ComponentContainer;
 
 public class StatusBarTools extends AndroidNonvisibleComponent {
   private static final String LOG_TAG = "StatusBarTools";
-  private ComponentContainer container;
+  private final ComponentContainer container;
   private static Context context;
   private final Activity activity;
   private boolean statusbarVisible;
@@ -33,7 +33,7 @@ public class StatusBarTools extends AndroidNonvisibleComponent {
   public StatusBarTools(ComponentContainer container) {
     super(container.$form());
     this.container = container;
-    context = (Context)container.$context();
+    context = container.$context();
     this.activity = container.$context();
   }
   

@@ -45,8 +45,9 @@ public class MainActivity extends Form implements HandlesEventDispatching {
     HorizontalArrangement HorizontalArrangementH7;
 
     Button buttonH1;
-    Label Label1, Label2, LabelCo2,LabelT, Labelppm, LabelC;
-
+    Label Label1, Label2,LabelT, LabelC, Labelppm;
+    TextBox LabelCo2andTemp;
+    Web Relay;
     protected void $define() {
         // This is just to show that we can
         this.Sizing("Responsive");
@@ -65,62 +66,56 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         Label1.Height(45);
         Label1.WidthPercent(50);
         Label1.TextAlignment(Component.ALIGNMENT_CENTER);
-        Label1.Text("Co2");
-        LabelCo2 = new Label(HorizontalArrangementH1);
-        LabelCo2.FontSize(35);
-        LabelCo2.Height(45);
-        LabelCo2.WidthPercent(25);
-        LabelCo2.TextAlignment(Component.ALIGNMENT_OPPOSITE);
-        LabelCo2.Text("444");
+        Label1.Text("Co2/Temp");
+        LabelCo2andTemp = new TextBox(HorizontalArrangementH1);
+        LabelCo2andTemp.FontSize(35);
+        LabelCo2andTemp.Height(55);
+        LabelCo2andTemp.WidthPercent(25);
+        LabelCo2andTemp.TextAlignment(Component.ALIGNMENT_OPPOSITE);
+        LabelCo2andTemp.Text();
         Labelppm = new Label(HorizontalArrangementH1);
-        Labelppm.FontSize(35);
-        Labelppm.Height(45);
-        Labelppm.WidthPercent(25);
+        Labelppm.FontSize(25);
+        Labelppm.Height(35);
+        Labelppm.WidthPercent(15);
         Labelppm.TextAlignment(Component.ALIGNMENT_NORMAL);
-        Labelppm.Text("ppm");
+        Labelppm.Text();
         HorizontalArrangementH3 = new HorizontalArrangement(Home);
         HorizontalArrangementH3.Height(20);
         HorizontalArrangementH2 = new HorizontalArrangement(Home);
         HorizontalArrangementH2.Height(64);
         HorizontalArrangementH2.WidthPercent(100);
-        Label2 = new Label(HorizontalArrangementH2);
-        Label2.FontSize(35);
-        Label2.Height(45);
-        Label2.WidthPercent(60);
-        Label2.TextAlignment(Component.ALIGNMENT_CENTER);
-        Label2.Text("Temperature");
         LabelT = new Label(HorizontalArrangementH2);
         LabelT.FontSize(35);
         LabelT.Height(45);
         LabelT.WidthPercent(20);
         LabelT.TextAlignment(Component.ALIGNMENT_OPPOSITE);
-        LabelT.Text("44");
+        LabelT.Text();
         LabelC = new Label(HorizontalArrangementH2);
         LabelC.FontSize(35);
         LabelC.Height(45);
         LabelC.WidthPercent(20);
         LabelC.TextAlignment(Component.ALIGNMENT_NORMAL);
-        LabelC.Text("°C");
+        LabelC.Text();
         HorizontalArrangementH4 = new HorizontalArrangement(Home);
         HorizontalArrangementH4.Height(20);
         buttonH1 = new Button(Home);
         buttonH1.Height(60);
         buttonH1.WidthPercent(100);
-        buttonH1.Text("More Information");
+        buttonH1.Text("Press for Readings");
         buttonH1.TextColor(-16777216);
         buttonH1.FontSize(20);
         HorizontalArrangementH7 = new HorizontalArrangement(Home);
         HorizontalArrangementH7.HeightPercent(100);
+        Relay = new Web(Home);
         EventDispatcher.registerEventForDelegation(this, formName, "BackPressed");
         EventDispatcher.registerEventForDelegation(this, formName, "GotText");
         EventDispatcher.registerEventForDelegation(this, formName, "Click");
         EventDispatcher.registerEventForDelegation(this, formName, "OtherScreenClosed" );
         EventDispatcher.registerEventForDelegation(this, formName, "fachtnaWebViewStringChange");
+
     }
 
-    public static void dbg (String debugMsg) {
-        System.err.print( "~~~> " + debugMsg + " <~~~\n");
-    }
+
 
     public boolean dispatchEvent(Component component, String componentName, String eventName, Object[] params) {
 
@@ -129,12 +124,64 @@ public class MainActivity extends Form implements HandlesEventDispatching {
             return true;
         } else if (eventName.equals("Click")) {
             if (component.equals(buttonH1)) {
-                switchFormWithStartValue("Main_Menu", null);
+                dbg("HELLO2");
+              //  switchFormWithStartValue("Main_Menu", null);
+                Relay.Url("https://t.fachtnaroe.net/qndco2?device=TCFE-CO2-0C-AA&sensor=CO2");
+                Relay.Get();
+
+                Relay.Url("https://t.fachtnaroe.net/qndco2?device=TCFE-CO2-0C-AA&sensor=CELCIUS");
+                Relay.Get();
 
             }
 
         }
+        else if (eventName.equals("GotText")) {
+            if (component.equals(Relay)) {
+                String status = params[1].toString();
+                String textOfResponse = (String) params[3];
+                handleNetworkResponse(component, status, textOfResponse);
+                dbg("HELLO");
+                return true;
+
+            }
+        }
         return true;
     }
 
-}
+
+    void handleNetworkResponse(Component c, String status, String textOfResponse) {
+        dbg(("<br><b>" + "some message here" + ":</b> " + textOfResponse + "<br>"));
+        if (status.equals("200")) try {
+            JSONObject parser = new JSONObject(textOfResponse);
+            if (parser.getString("Status").equals("OK")) {
+                if (c.equals(Relay)) {
+                  LabelCo2andTemp.Text(parser.getString("value"));
+                }
+            }
+        }
+        catch(JSONException e){
+            dbg("Android JSON exception (" + textOfResponse + ")");
+        }
+        else{
+            dbg("Status is " + status);
+        }
+    }
+
+    public static void dbg (String debugMsg) {
+        System.err.println( "~~~> " + debugMsg + " <~~~\n");
+    }
+    public static boolean isNumeric(String string) {
+        int intValue;
+        if(string == null || string.equals("")) {
+            return false;
+        }
+        try {
+            intValue = Integer.parseInt(string);
+            return true;
+        }
+        catch (NumberFormatException e) {
+            //
+        }
+        return false;
+    }
+ }
