@@ -40,11 +40,11 @@ public class MainActivity extends Form implements HandlesEventDispatching {
     HorizontalArrangement HorizontalArrangement1, HorizontalArrangement2, HorizontalArrangement3, HorizontalArrangement4, HorizontalArrangement5, HorizontalArrangementP;
     VerticalArrangement VerticalArrangement1;
     Label Null, Co2, Co2Reading, Co2Measurement,Temp, TempReading, TempMeasurement, SelectedNetwork;
-    Clock Ticker;
     TextBox NetworkSelection, NetworkSelection1, NetworkSelection2;
     Button SettingsButton, GoButton;
     Web connectionDemo, Relay, connectionRelay;
     Notifier notifier_Messages;
+    Clock Ticker;
     String Data = "https://t.fachtnaroe.net/qndco2?";
     String Data1 = "https://t.fachtnaroe.net/qndco2?";
 
@@ -66,11 +66,16 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         VerticalArrangement1.WidthPercent(100);
         VerticalArrangement1.BackgroundColor(Color.parseColor("#9DC183"));
 
-        Ticker = new Clock (Screen1);
-         Ticker.TimerInterval(60000);
-         Ticker.TimerEnabled(true);
-
         HorizontalArrangement1 = new HorizontalArrangement(Screen1);
+
+        HorizontalArrangement1.HeightPercent(5);
+        HorizontalArrangement1.WidthPercent(100);
+        HorizontalArrangement1.BackgroundColor(Color.parseColor("#0000CD"));
+        //Label-HorizontalArrangement1
+
+        Ticker = new Clock (Screen1);
+        Ticker.TimerInterval (60000);
+        Ticker.TimerEnabled(true);
 
         //Button-VerticalArrangement1
         SettingsButton = new Button(VerticalArrangement1);
@@ -95,21 +100,21 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         NetworkSelection.BackgroundColor(Color.parseColor("#9DC183"));
         NetworkSelection.FontSize(25);
         NetworkSelection.TextAlignment(1);
-        NetworkSelection.Text("sensor=CO2&device=TCFE-CO2-89-4F");
+        NetworkSelection.Text("sensor=CO2&device=TCFE-CO2-0C-AA");
         NetworkSelection1 = new TextBox(VerticalArrangement1);
         NetworkSelection1.HeightPercent(0);
         NetworkSelection1.WidthPercent(0);
         NetworkSelection1.BackgroundColor(Color.parseColor("#9DC183"));
         NetworkSelection1.FontSize(25);
         NetworkSelection1.TextAlignment(1);
-        NetworkSelection1.Text("sensor=CELCIUS&device=TCFE-CO2-89-4F");
+        NetworkSelection1.Text("sensor=CELCIUS&device=TCFE-CO2-0C-AA");
         NetworkSelection2 = new TextBox(VerticalArrangement1);
         NetworkSelection2.HeightPercent(0);
         NetworkSelection2.WidthPercent(0);
         NetworkSelection2.BackgroundColor(Color.parseColor("#9DC183"));
         NetworkSelection2.FontSize(25);
         NetworkSelection2.TextAlignment(1);
-        NetworkSelection2.Text("sensor=VOC&device=TCFE-CO2-89-4F");
+        NetworkSelection2.Text("sensor=VOC&device=TCFE-CO2-0C-AA");
 //        NetworkSelection.HasMargins(false);
         //Label-VerticalArrangement1
         Null = new Label(VerticalArrangement1);
@@ -230,11 +235,11 @@ public class MainActivity extends Form implements HandlesEventDispatching {
 
         //Web-connectionDemo
         connectionDemo = new Web(this);
-        connectionDemo.Url("Data");
+        connectionDemo.Url("addressOfData");
         Relay = new Web(this);
-        Relay.Url("Data1");
+        Relay.Url("addressOfData1");
         connectionRelay = new Web(this);
-        connectionRelay.Url("Data1");
+        connectionRelay.Url("addressOfData1");
 
         //Event Dispatcher
         EventDispatcher.registerEventForDelegation(this, formName, "BackPressed");
@@ -294,10 +299,6 @@ public class MainActivity extends Form implements HandlesEventDispatching {
             Relay.Get();
             dbg(connectionDemo.Url());
 
-            connectionRelay.Url(Data1 + NetworkSelection2.Text());
-            connectionRelay.Get();
-            dbg(connectionDemo.Url());
-
             return true;
         }
         return false;
@@ -310,12 +311,12 @@ public class MainActivity extends Form implements HandlesEventDispatching {
             if (parser.getString("Status").equals("OK")) {
                 dbg("gh");
                 if (c.equals(connectionDemo)) {
-                    NetworkSelection.Text(parser.getString("value"));
+                    Co2Reading.Text(parser.getString("value"));
                 }
                 else {
-                    NetworkSelection1.Text(parser.getString("value"));
+                    TempReading.Text(parser.getString("value"));
                 }
-                if (c.equals(connectionRelay)){
+                if (c.equals(Relay)){
                 }
                 Ticker.TimerEnabled(true);
             }
