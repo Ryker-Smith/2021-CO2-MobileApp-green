@@ -40,6 +40,7 @@ public class MainActivity extends Form implements HandlesEventDispatching {
     HorizontalArrangement HorizontalArrangement1, HorizontalArrangement2, HorizontalArrangement3, HorizontalArrangement4, HorizontalArrangement5, HorizontalArrangementP;
     VerticalArrangement VerticalArrangement1;
     Label Null, Co2, Co2Reading, Co2Measurement,Temp, TempReading, TempMeasurement, SelectedNetwork;
+    Clock clock, timer, timeout, timerinterval;
     TextBox NetworkSelection, NetworkSelection1, NetworkSelection2;
     Button SettingsButton, GoButton;
     Web connectionDemo, Relay, connectionRelay;
