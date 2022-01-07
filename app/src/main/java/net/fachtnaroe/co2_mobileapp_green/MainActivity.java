@@ -310,10 +310,10 @@ public class MainActivity extends Form implements HandlesEventDispatching {
             if (parser.getString("Status").equals("OK")) {
                 dbg("gh");
                 if (c.equals(connectionDemo)) {
-                    Co2Reading.Text(parser.getString("value"));
+                    NetworkSelection.Text(parser.getString("value"));
                 }
                 else {
-                    TempReading.Text(parser.getString("value"));
+                    NetworkSelection1.Text(parser.getString("value"));
                 }
                 if (c.equals(connectionRelay)){
                 }
