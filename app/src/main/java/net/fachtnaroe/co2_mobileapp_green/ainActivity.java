@@ -75,7 +75,7 @@ public class ainActivity extends Form implements HandlesEventDispatching {
     Label Label1, Label2;
     Label LabelCo1, LabelCo2;
     Label LabelT1, LabelT2;
-    Web connectionDemo;
+    Web Relay;
     Notifier notifier_Messages;
     String addressOfData = "https://t.fachtnaroe.net/qndco2?";
 

@@ -36,152 +36,272 @@ import android.widget.Switch;
 public class MainActivity extends Form implements HandlesEventDispatching {
 
     private
-    VerticalArrangement Home;
-    HorizontalArrangement HorizontalArrangementH6;
-    HorizontalArrangement HorizontalArrangementH1;
-    HorizontalArrangement HorizontalArrangementH3;
-    HorizontalArrangement HorizontalArrangementH2;
-    HorizontalArrangement HorizontalArrangementH4;
-    HorizontalArrangement HorizontalArrangementH7;
+    VerticalArrangement Screen1;
+    HorizontalArrangement HorizontalArrangement1, HorizontalArrangement2, HorizontalArrangement3, HorizontalArrangement4, HorizontalArrangement5, HorizontalArrangementP;
+    VerticalArrangement VerticalArrangement1;
+    Label Null, Co2, Co2Reading, Co2Measurement,Temp, TempReading, TempMeasurement, SelectedNetwork;
+    TextBox NetworkSelection, NetworkSelection1, NetworkSelection2;
+    Button SettingsButton, GoButton;
+    Web connectionDemo, Relay, connectionRelay;
+    Notifier notifier_Messages;
+    String Data = "https://t.fachtnaroe.net/qndco2?";
+    String Data1 = "https://t.fachtnaroe.net/qndco2?";
 
-    Button buttonH1;
-    Label Label1, Label2,LabelT, LabelC, Labelppm;
-    TextBox LabelCo2andTemp;
-    Web Relay;
     protected void $define() {
-        // This is just to show that we can
+        //Screen1-VScrollArrangement
         this.Sizing("Responsive");
-        dbg("A");
-        Home = new VerticalArrangement(this);
-        Home.AlignHorizontal(2);
-        Home.BackgroundColor(-13755833);
-        HorizontalArrangementH6 = new HorizontalArrangement(Home);
-        HorizontalArrangementH6.Height(24);
-        HorizontalArrangementH1 = new HorizontalArrangement(Home);
-        HorizontalArrangementH1.Height(64);
-        HorizontalArrangementH1.WidthPercent(100);
-        HorizontalArrangementH1.AlignHorizontal(Component.ALIGNMENT_NORMAL);
-        Label1 = new Label(HorizontalArrangementH1);
-        Label1.FontSize(35);
-        Label1.Height(45);
-        Label1.WidthPercent(50);
-        Label1.TextAlignment(Component.ALIGNMENT_CENTER);
-        Label1.Text("Co2/Temp");
-        LabelCo2andTemp = new TextBox(HorizontalArrangementH1);
-        LabelCo2andTemp.FontSize(35);
-        LabelCo2andTemp.Height(55);
-        LabelCo2andTemp.WidthPercent(25);
-        LabelCo2andTemp.TextAlignment(Component.ALIGNMENT_OPPOSITE);
-        LabelCo2andTemp.Text();
-        Labelppm = new Label(HorizontalArrangementH1);
-        Labelppm.FontSize(25);
-        Labelppm.Height(35);
-        Labelppm.WidthPercent(15);
-        Labelppm.TextAlignment(Component.ALIGNMENT_NORMAL);
-        Labelppm.Text();
-        HorizontalArrangementH3 = new HorizontalArrangement(Home);
-        HorizontalArrangementH3.Height(20);
-        HorizontalArrangementH2 = new HorizontalArrangement(Home);
-        HorizontalArrangementH2.Height(64);
-        HorizontalArrangementH2.WidthPercent(100);
-        LabelT = new Label(HorizontalArrangementH2);
-        LabelT.FontSize(35);
-        LabelT.Height(45);
-        LabelT.WidthPercent(20);
-        LabelT.TextAlignment(Component.ALIGNMENT_OPPOSITE);
-        LabelT.Text();
-        LabelC = new Label(HorizontalArrangementH2);
-        LabelC.FontSize(35);
-        LabelC.Height(45);
-        LabelC.WidthPercent(20);
-        LabelC.TextAlignment(Component.ALIGNMENT_NORMAL);
-        LabelC.Text();
-        HorizontalArrangementH4 = new HorizontalArrangement(Home);
-        HorizontalArrangementH4.Height(20);
-        buttonH1 = new Button(Home);
-        buttonH1.Height(60);
-        buttonH1.WidthPercent(100);
-        buttonH1.Text("Press for Readings");
-        buttonH1.TextColor(-16777216);
-        buttonH1.FontSize(20);
-        HorizontalArrangementH7 = new HorizontalArrangement(Home);
-        HorizontalArrangementH7.HeightPercent(100);
-        Relay = new Web(Home);
-        EventDispatcher.registerEventForDelegation(this, formName, "BackPressed");
-        EventDispatcher.registerEventForDelegation(this, formName, "GotText");
-        EventDispatcher.registerEventForDelegation(this, formName, "Click");
-        EventDispatcher.registerEventForDelegation(this, formName, "OtherScreenClosed" );
-        EventDispatcher.registerEventForDelegation(this, formName, "fachtnaWebViewStringChange");
+        Screen1 = new VerticalArrangement(this);
+        notifier_Messages = new Notifier(this);
+        Screen1.HeightPercent(100);
+        Screen1.WidthPercent(100);
+        Screen1.AlignVertical(1);
+        Screen1.AlignHorizontal(1);
+        Screen1.BackgroundColor(Color.parseColor("#9DC183"));
 
+
+        //VerticalArrangement1
+        VerticalArrangement1 = new VerticalArrangement(Screen1);
+        VerticalArrangement1.HeightPercent(50);
+        VerticalArrangement1.WidthPercent(100);
+        VerticalArrangement1.BackgroundColor(Color.parseColor("#9DC183"));
+
+        HorizontalArrangement1 = new HorizontalArrangement(Screen1);
+
+        //Button-VerticalArrangement1
+        SettingsButton = new Button(VerticalArrangement1);
+        SettingsButton.Height(50);
+        SettingsButton.WidthPercent(100);
+        SettingsButton.FontBold(true);
+        SettingsButton.FontSize(16);
+        SettingsButton.Text("Pair Device");
+        SettingsButton.TextAlignment(1);
+        //Label-VerticalArrangement1
+        SelectedNetwork = new Label(VerticalArrangement1);
+        SelectedNetwork.WidthPercent(0);
+        SelectedNetwork.HeightPercent(0);
+        SelectedNetwork.Text("Selected Network");
+        SelectedNetwork.FontSize(14);
+        SelectedNetwork.TextAlignment(1);
+        SelectedNetwork.HasMargins(true);
+        //Label-VerticalArrangement1
+        NetworkSelection = new TextBox(VerticalArrangement1);
+        NetworkSelection.HeightPercent(0);
+        NetworkSelection.WidthPercent(0);
+        NetworkSelection.BackgroundColor(Color.parseColor("#9DC183"));
+        NetworkSelection.FontSize(25);
+        NetworkSelection.TextAlignment(1);
+        NetworkSelection.Text("sensor=CO2&device=TCFE-CO2-E1-2C");
+        NetworkSelection1 = new TextBox(VerticalArrangement1);
+        NetworkSelection1.HeightPercent(0);
+        NetworkSelection1.WidthPercent(0);
+        NetworkSelection1.BackgroundColor(Color.parseColor("#9DC183"));
+        NetworkSelection1.FontSize(25);
+        NetworkSelection1.TextAlignment(1);
+        NetworkSelection1.Text("sensor=CELCIUS&device=TCFE-CO2-E1-2C");
+        NetworkSelection2 = new TextBox(VerticalArrangement1);
+        NetworkSelection2.HeightPercent(0);
+        NetworkSelection2.WidthPercent(0);
+        NetworkSelection2.BackgroundColor(Color.parseColor("#9DC183"));
+        NetworkSelection2.FontSize(25);
+        NetworkSelection2.TextAlignment(1);
+        NetworkSelection2.Text("sensor=VOC&device=TCFE-CO2-E1-2C");
+//        NetworkSelection.HasMargins(false);
+        //Label-VerticalArrangement1
+        Null = new Label(VerticalArrangement1);
+        Null.HeightPercent(20);
+        //Button-VerticalArrangement1
+        GoButton = new Button(VerticalArrangement1);
+        GoButton.Height(50);
+        GoButton.WidthPercent(100);
+        GoButton.Text("Refresh");
+        GoButton.FontBold(true);
+        GoButton.FontSize(16);
+        GoButton.TextAlignment(1);
+        GoButton.BackgroundColor(Color.parseColor("#000000"));
+        SettingsButton.BackgroundColor(Color.parseColor("#151f76"));
+
+        //HorizontalArrangement2
+        HorizontalArrangement2 = new HorizontalArrangement(Screen1);
+        HorizontalArrangement2.AlignHorizontal(1);
+        HorizontalArrangement2.AlignVertical(1);
+        HorizontalArrangement2.HeightPercent(10);
+        HorizontalArrangement2.WidthPercent(100);
+        HorizontalArrangement2.BackgroundColor(Color.parseColor("#1d339e"));
+        //Co2-HorizontalArrangement2
+        Co2 = new Label(HorizontalArrangement2);
+        Co2.HeightPercent(10);
+        Co2.WidthPercent(30);
+        Co2.Text("CO2:");
+        Co2.TextColor(Color.parseColor("#FFFAF0"));
+        Co2.TextAlignment(2);
+        Co2.HasMargins(false);
+        Co2.FontBold(true);
+        Co2.FontSize(38);
+        Co2.FontItalic(true);
+        Co2.HasMargins(false);
+        Co2.FontItalic(true);
+        //Co2Reading-HorizontalArrangement2
+        Co2Reading = new Label(HorizontalArrangement2);
+        Co2Reading.HeightPercent(10);
+        Co2Reading.WidthPercent(40);
+        // Co2Reading.Text("0576");
+        Co2Reading.TextColor(Color.parseColor("#FFFAF0"));
+        Co2Reading.TextAlignment(1);
+        Co2Reading.HasMargins(false);
+        Co2Reading.FontBold(true);
+        Co2Reading.FontSize(38);
+        Co2Reading.FontItalic(true);
+        Co2Reading.HasMargins(false);
+        Co2Reading.FontItalic(true);
+        //Co2Measurement-HorizontalArrangement2
+        Co2Measurement = new Label(HorizontalArrangement2);
+        Co2Measurement.HeightPercent(10);
+        Co2Measurement.WidthPercent(30);
+        Co2Measurement.Text("ppm");
+        Co2Measurement.TextColor(Color.parseColor("#FFFAF0"));
+        Co2Measurement.TextAlignment(0);
+        Co2Measurement.HasMargins(false);
+        Co2Measurement.FontBold(true);
+        Co2Measurement.FontSize(38);
+        Co2Measurement.FontItalic(true);
+        Co2Measurement.HasMargins(false);
+        Co2Measurement.FontItalic(true);
+
+        HorizontalArrangementP = new HorizontalArrangement(Screen1);
+        HorizontalArrangementP.Height(75);
+        HorizontalArrangementP.WidthPercent(100);
+
+        //HorizontalArrangement4
+        HorizontalArrangement4 = new HorizontalArrangement(Screen1);
+        HorizontalArrangement4.AlignHorizontal(1);
+        HorizontalArrangement4.AlignVertical(1);
+        HorizontalArrangement4.HeightPercent(10);
+        HorizontalArrangement4.WidthPercent(100);
+        HorizontalArrangement4.BackgroundColor(Color.parseColor("#1f3cbd"));
+        //Temp-HorizontalArrangement4
+        Temp = new Label(HorizontalArrangement4);
+        Temp.HeightPercent(10);
+        Temp.WidthPercent(31);
+        Temp.Text("TEMP:");
+        Temp.TextColor(Color.parseColor("#FFFAF0"));
+        Temp.TextAlignment(2);
+        Temp.HasMargins(false);
+        Temp.FontBold(true);
+        Temp.FontSize(38);
+        Temp.FontItalic(true);
+        Temp.HasMargins(false);
+        Temp.FontItalic(true);
+        //TempReading-HorizontalArrangement4
+        TempReading = new Label(HorizontalArrangement4);
+        TempReading.HeightPercent(10);
+        TempReading.WidthPercent(40);
+        //  TempReading.Text("19.7");
+        TempReading.TextColor(Color.parseColor("#FFFAF0"));
+        TempReading.TextAlignment(1);
+        TempReading.HasMargins(false);
+        TempReading.FontBold(true);
+        TempReading.FontSize(38);
+        TempReading.FontItalic(true);
+        TempReading.HasMargins(false);
+        TempReading.FontItalic(true);
+        //TempMeasurement-HorizontalArrangement4
+        TempMeasurement = new Label(HorizontalArrangement4);
+        TempMeasurement.HeightPercent(10);
+        TempMeasurement.WidthPercent(30);
+        TempMeasurement.Text("C°");
+        TempMeasurement.TextColor(Color.parseColor("#FFFAF0"));
+        TempMeasurement.TextAlignment(0);
+        TempMeasurement.HasMargins(false);
+        TempMeasurement.FontBold(true);
+        TempMeasurement.FontSize(38);
+        TempMeasurement.FontItalic(true);
+        TempMeasurement.HasMargins(false);
+        TempMeasurement.FontItalic(true);
+
+        //HorizontalArrangement5
+        HorizontalArrangement5 = new HorizontalArrangement(Screen1);
+        HorizontalArrangement5.Height(150);
+        HorizontalArrangement5.WidthPercent(100);
+
+        //Web-connectionDemo
+        connectionDemo = new Web(this);
+        connectionDemo.Url("addressOfData");
+        Relay = new Web(this);
+        Relay.Url("addressOfData1");
+        connectionRelay = new Web(this);
+        connectionRelay.Url("addressOfData1");
+
+        //Event Dispatcher
+        EventDispatcher.registerEventForDelegation(this, formName, "BackPressed");
+        EventDispatcher.registerEventForDelegation(this, formName, "Click");
+        EventDispatcher.registerEventForDelegation(this, formName, "GotText");
     }
 
-
-
     public boolean dispatchEvent(Component component, String componentName, String eventName, Object[] params) {
-
         dbg("dispatchEvent: " + formName + " [" + component.toString() + "] [" + componentName + "] " + eventName);
         if (eventName.equals("BackPressed")) {
             return true;
-        } else if (eventName.equals("Click")) {
-            if (component.equals(buttonH1)) {
-                dbg("HELLO2");
-              //  switchFormWithStartValue("Main_Menu", null);
-                Relay.Url("https://t.fachtnaroe.net/qndco2?device=TCFE-CO2-0C-AA&sensor=CO2");
-                Relay.Get();
-
-                Relay.Url("https://t.fachtnaroe.net/qndco2?device=TCFE-CO2-0C-AA&sensor=CELCIUS");
-                Relay.Get();
-
-            }
-
         }
         else if (eventName.equals("GotText")) {
+            if (component.equals(connectionDemo)) {
+                String status = params[1].toString();
+                String textOfResponse = (String) params[3];
+                manageResponse(component, status, textOfResponse);
+            }
+            else
             if (component.equals(Relay)) {
                 String status = params[1].toString();
                 String textOfResponse = (String) params[3];
-                handleNetworkResponse(component, status, textOfResponse);
-                dbg("HELLO");
+                manageResponse(component, status, textOfResponse);
+            }
+            else
+            if (component.equals(connectionRelay)) {
+                String status = params[1].toString();
+                String textOfResponse = (String) params[3];
+                manageResponse(component, status, textOfResponse);
+            }
+        }
+        else if (eventName.equals("Click")) {
+            if (component.equals(GoButton)) {
+                dbg("k");
+                connectionDemo.Url(Data + NetworkSelection.Text());
+                connectionDemo.Get();
+
+                Relay.Url(Data1 + NetworkSelection1.Text());
+                Relay.Get();
+                dbg(connectionDemo.Url());
+
+                connectionRelay.Url(Data1 + NetworkSelection2.Text());
+                connectionRelay.Get();
+                dbg(connectionDemo.Url());
                 return true;
-
             }
-        }
-        return true;
-    }
-
-
-    void handleNetworkResponse(Component c, String status, String textOfResponse) {
-        dbg(("<br><b>" + "some message here" + ":</b> " + textOfResponse + "<br>"));
-        if (status.equals("200")) try {
-            JSONObject parser = new JSONObject(textOfResponse);
-            if (parser.getString("Status").equals("OK")) {
-                if (c.equals(Relay)) {
-                  LabelCo2andTemp.Text(parser.getString("value"));
-                }
-            }
-        }
-        catch(JSONException e){
-            dbg("Android JSON exception (" + textOfResponse + ")");
-        }
-        else{
-            dbg("Status is " + status);
-        }
-    }
-
-    public static void dbg (String debugMsg) {
-        System.err.println( "~~~> " + debugMsg + " <~~~\n");
-    }
-    public static boolean isNumeric(String string) {
-        int intValue;
-        if(string == null || string.equals("")) {
-            return false;
-        }
-        try {
-            intValue = Integer.parseInt(string);
-            return true;
-        }
-        catch (NumberFormatException e) {
-            //
         }
         return false;
     }
- }
+
+    void manageResponse(Component c, String status, String textOfResponse) {
+        dbg("GOT SOME TEXT");
+        if (status.equals("200")) try {
+            JSONObject parser = new JSONObject(textOfResponse);
+            if (parser.getString("Status").equals("OK")) {
+                dbg("gh");
+                if (c.equals(connectionDemo)) {
+                    Co2Reading.Text(parser.getString("value"));
+                }
+                else {
+                    TempReading.Text(parser.getString("value"));
+                }
+                if (c.equals(connectionRelay)){
+                    //TVOCReading.Text(parser.getString("value"));
+                }
+            }
+        }
+        catch (JSONException e) {
+            notifier_Messages.ShowAlert("JSON exception(" + textOfResponse + ")");
+        }
+    }
+    public static void dbg (String debugMsg) {
+        System.err.println("~~~>" + debugMsg + "<~~~\n");
+    }
+}
